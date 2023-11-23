@@ -71,6 +71,12 @@ spec:
       labels:
         app: mongo
     spec:
+      initContainers:
+        - name: sysctl-init
+          image: alpine:latest
+          command: ["sh", "-c", "sysctl -w vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
       containers:
       - image: mongo
         name: mongo
@@ -145,4 +151,3 @@ spec:
         - name: mongo-client_INITDB_ROOT_PASSWORD
           value: 'password123'
 
----
