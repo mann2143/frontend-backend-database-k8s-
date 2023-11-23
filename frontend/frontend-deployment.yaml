@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: frontend-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend-app
+      app: frontend-app
   template:
     metadata:
       labels:
-        app: backend-app
+        app: frontend-app
     spec:
       containers:
-      - name: backend-container
-        image: 659194519955.dkr.ecr.us-east-1.amazonaws.com/backend-repo:latest
+      - name: frontend-container
+        image: 659194519955.dkr.ecr.us-east-1.amazonaws.com/frontend-repo:latest
         ports:
-        - containerPort: 3001
+        - containerPort: 3000
         resources:
           requests:
             memory: "64Mi"
@@ -30,15 +30,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-deployment
+  name: frontend-deployment
 spec:
   selector:
-    app: backend-app
-  type: NodePort
+    app: frontend-app
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3001
-  externalIPs:
-    - 10.0.0.1
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer
 
